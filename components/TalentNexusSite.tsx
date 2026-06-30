@@ -1,10 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import { ArrowRight, BrainCircuit, Globe, Mail, MapPin, Menu, Phone, Search, Target, X } from "lucide-react";
+import { ArrowRight, BrainCircuit, Globe, Mail, MapPin, Menu, Moon, Phone, Search, Sun, Target, X } from "lucide-react";
 import { FormEvent, useEffect, useState } from "react";
 
 type Lang = "en" | "tw";
+type Theme = "light" | "dark";
 
 const copy = {
   en: {
@@ -77,7 +78,22 @@ export function TalentNexusSite() {
   const [lang, setLang] = useState<Lang>("en");
   const [menuOpen, setMenuOpen] = useState(false);
   const [sent, setSent] = useState(false);
+  const [theme, setTheme] = useState<Theme>("light");
   const t = copy[lang];
+
+  useEffect(() => {
+    const saved = window.localStorage.getItem("talent-nexus-theme") as Theme | null;
+    const initial = saved === "dark" || saved === "light" ? saved : "light";
+    setTheme(initial);
+    document.documentElement.classList.toggle("dark", initial === "dark");
+  }, []);
+
+  function toggleTheme() {
+    const next = theme === "light" ? "dark" : "light";
+    setTheme(next);
+    document.documentElement.classList.toggle("dark", next === "dark");
+    window.localStorage.setItem("talent-nexus-theme", next);
+  }
 
   useEffect(() => {
     const elements = document.querySelectorAll<HTMLElement>(".reveal-on-scroll");
@@ -110,13 +126,14 @@ export function TalentNexusSite() {
   return <main className="overflow-hidden">
     <header className="fixed inset-x-0 top-0 z-50 border-b border-navy/10 bg-white/90 backdrop-blur-xl">
       <div className="mx-auto flex h-28 max-w-7xl items-center justify-between px-5 lg:px-8">
-        <a href="#top" aria-label="Talent Nexus home" className="flex shrink-0 items-center"><Image src="/logo.png" alt="Talent Nexus" width={310} height={208} priority className="h-20 w-auto object-contain sm:h-24" /></a>
+        <a href="#top" aria-label="Talent Nexus home" className="logo-float flex shrink-0 items-center"><Image src="/logo.png" alt="Talent Nexus" width={310} height={208} priority className="h-20 w-auto object-contain sm:h-24" /></a>
         <nav className="hidden items-center gap-9 md:flex">
           {["about", "services", "contact"].map((id, i) => <a key={id} href={`#${id}`} className="text-sm font-semibold text-navy/70 transition hover:text-teal-600">{t.nav[i]}</a>)}
           <a href="https://tnt.talentnexus.com.tw" target="_blank" rel="noopener noreferrer" className="text-sm font-semibold text-navy/70 transition hover:text-teal-600">{t.nav[3]}</a>
+          <button onClick={toggleTheme} className="theme-toggle flex h-10 w-10 items-center justify-center rounded-full border border-navy/15 text-navy transition hover:border-cyan hover:bg-cyan/10" aria-label={theme === "light" ? "Switch to dark mode" : "Switch to light mode"}>{theme === "light" ? <Moon size={18} /> : <Sun size={18} />}</button>
           <button onClick={() => setLang(lang === "en" ? "tw" : "en")} className="rounded-full border border-navy/15 px-4 py-2 text-sm font-bold transition hover:border-cyan hover:bg-cyan/10" aria-label="Switch language">EN <span className="mx-1 text-navy/30">/</span> 繁中</button>
         </nav>
-        <button className="md:hidden" onClick={() => setMenuOpen(!menuOpen)} aria-label="Open menu">{menuOpen ? <X /> : <Menu />}</button>
+        <button onClick={toggleTheme} className="mr-3 inline-flex h-10 w-10 items-center justify-center rounded-full border border-navy/15" aria-label={theme === "light" ? "Switch to dark mode" : "Switch to light mode"}>{theme === "light" ? <Moon size={18} /> : <Sun size={18} />}</button><button className="md:hidden" onClick={() => setMenuOpen(!menuOpen)} aria-label="Open menu">{menuOpen ? <X /> : <Menu />}</button>
       </div>
       {menuOpen && <div className="border-t border-navy/10 bg-white px-5 py-5 md:hidden">{["about", "services", "contact"].map((id, i) => <a key={id} onClick={() => setMenuOpen(false)} href={`#${id}`} className="block py-3 font-semibold">{t.nav[i]}</a>)}<a href="https://tnt.talentnexus.com.tw" target="_blank" rel="noopener noreferrer" onClick={() => setMenuOpen(false)} className="block py-3 font-semibold">{t.nav[3]}</a><button onClick={() => { setLang(lang === "en" ? "tw" : "en"); setMenuOpen(false); }} className="mt-2 rounded-full border px-4 py-2 text-sm font-bold">EN / 繁中</button></div>}
     </header>
@@ -129,7 +146,7 @@ export function TalentNexusSite() {
           <h1 className="fade-up delay-1 text-5xl font-bold leading-[1.03] tracking-[-.055em] text-navy sm:text-6xl lg:text-8xl">{t.headline}</h1>
           <p className="fade-up delay-2 mt-8 max-w-2xl text-lg leading-8 text-ink/70 sm:text-xl">{t.sub}</p>
           <div className="fade-up delay-2 mt-10 flex flex-col gap-3 sm:flex-row">
-            <a href="#contact" className="inline-flex items-center justify-center gap-2 rounded-full bg-cyan px-7 py-4 font-bold text-navy transition hover:-translate-y-1 hover:shadow-lg">{t.ctas[0]} <ArrowRight size={18} /></a>
+            <a href="#contact" className="shine-button inline-flex items-center justify-center gap-2 rounded-full bg-cyan px-7 py-4 font-bold text-navy transition hover:-translate-y-1 hover:shadow-lg">{t.ctas[0]} <ArrowRight size={18} /></a>
             <a href="#contact" className="inline-flex items-center justify-center rounded-full border border-navy/20 bg-white px-7 py-4 font-bold transition hover:border-cyan hover:bg-cyan/10">{t.ctas[1]}</a>
           </div>
         </div>
@@ -147,7 +164,7 @@ export function TalentNexusSite() {
 
     <section className="reveal-on-scroll border-y border-navy/10 bg-mist py-24 sm:py-32"><div className="mx-auto max-w-7xl px-5 lg:px-8"><p className="text-xs font-bold tracking-[.24em] text-teal-600">{t.processLabel}</p><h2 className="mt-5 max-w-2xl text-4xl font-bold tracking-tight sm:text-5xl">{t.processTitle}</h2><div className="mt-14 grid gap-8 md:grid-cols-2 lg:grid-cols-4">{t.process.map((step, i) => <article key={step[0]} className="relative border-l border-navy/15 pl-6"><span className="text-sm font-bold text-teal-600">0{i + 1}</span><h3 className="mt-4 text-xl font-bold">{step[0]}</h3><p className="mt-3 leading-7 text-ink/60">{step[1]}</p></article>)}</div></div></section>
 
-    <section id="contact" className="reveal-on-scroll bg-navy py-24 text-white sm:py-32"><div className="mx-auto grid max-w-7xl gap-14 px-5 lg:grid-cols-2 lg:px-8"><div><p className="text-xs font-bold tracking-[.24em] text-cyan">{t.contactLabel}</p><h2 className="mt-6 max-w-xl text-4xl font-bold leading-tight tracking-tight sm:text-6xl">{t.contact}</h2><div className="mt-10 grid gap-4 text-sm text-white/70"><a href="tel:+886277354467" className="flex items-center gap-3 transition hover:text-cyan"><Phone size={18} className="text-cyan" />+886-2-7735-4467</a><a href="mailto:HR@talentnexus.com.tw" className="flex items-center gap-3 transition hover:text-cyan"><Mail size={18} className="text-cyan" />HR@talentnexus.com.tw</a><a href="https://talentnexus.com.tw" className="flex items-center gap-3 transition hover:text-cyan"><Globe size={18} className="text-cyan" />talentnexus.com.tw</a><address className="flex max-w-md items-start gap-3 not-italic leading-6"><MapPin size={18} className="mt-0.5 shrink-0 text-cyan" />11F., No. 335, Ruiguang Rd., Neihu Dist., Taipei City</address></div></div><form name="contact" method="POST" data-netlify="true" onSubmit={submit} className="grid gap-5"><input type="hidden" name="form-name" value="contact" />{t.fields.slice(0,3).map((field, i) => <label key={field} className="text-sm text-white/60">{field}<input required name={["name","email","company"][i]} type={i === 1 ? "email" : "text"} className="mt-2 w-full rounded-xl border border-white/15 bg-white/5 px-4 py-4 text-white outline-none transition focus:border-cyan" /></label>)}<label className="text-sm text-white/60">{t.fields[3]}<textarea required name="message" rows={4} className="mt-2 w-full resize-none rounded-xl border border-white/15 bg-white/5 px-4 py-4 text-white outline-none transition focus:border-cyan" /></label><button className="mt-2 inline-flex items-center justify-center gap-2 rounded-full bg-cyan px-7 py-4 font-bold text-navy transition hover:bg-white">{t.submit}<ArrowRight size={18} /></button>{sent && <p className="text-center text-sm text-cyan" role="status">{t.sent}</p>}</form></div></section>
+    <section id="contact" className="reveal-on-scroll bg-navy py-24 text-white sm:py-32"><div className="mx-auto grid max-w-7xl gap-14 px-5 lg:grid-cols-2 lg:px-8"><div><p className="text-xs font-bold tracking-[.24em] text-cyan">{t.contactLabel}</p><h2 className="mt-6 max-w-xl text-4xl font-bold leading-tight tracking-tight sm:text-6xl">{t.contact}</h2><div className="mt-10 grid gap-4 text-sm text-white/70"><a href="tel:+886277354467" className="flex items-center gap-3 transition hover:text-cyan"><Phone size={18} className="text-cyan" />+886-2-7735-4467</a><a href="mailto:HR@talentnexus.com.tw" className="flex items-center gap-3 transition hover:text-cyan"><Mail size={18} className="text-cyan" />HR@talentnexus.com.tw</a><a href="https://talentnexus.com.tw" className="flex items-center gap-3 transition hover:text-cyan"><Globe size={18} className="text-cyan" />talentnexus.com.tw</a><address className="flex max-w-md items-start gap-3 not-italic leading-6"><MapPin size={18} className="mt-0.5 shrink-0 text-cyan" />11F., No. 335, Ruiguang Rd., Neihu Dist., Taipei City</address></div></div><form name="contact" method="POST" data-netlify="true" onSubmit={submit} className="grid gap-5"><input type="hidden" name="form-name" value="contact" />{t.fields.slice(0,3).map((field, i) => <label key={field} className="text-sm text-white/60">{field}<input required name={["name","email","company"][i]} type={i === 1 ? "email" : "text"} className="mt-2 w-full rounded-xl border border-white/15 bg-white/5 px-4 py-4 text-white outline-none transition focus:border-cyan" /></label>)}<label className="text-sm text-white/60">{t.fields[3]}<textarea required name="message" rows={4} className="mt-2 w-full resize-none rounded-xl border border-white/15 bg-white/5 px-4 py-4 text-white outline-none transition focus:border-cyan" /></label><button className="shine-button mt-2 inline-flex items-center justify-center gap-2 rounded-full bg-cyan px-7 py-4 font-bold text-navy transition hover:bg-white">{t.submit}<ArrowRight size={18} /></button>{sent && <p className="text-center text-sm text-cyan" role="status">{t.sent}</p>}</form></div></section>
 
     <footer className="bg-[#07162a] py-8 text-white"><div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-5 text-center text-sm text-white/50 sm:flex-row sm:text-left lg:px-8"><div className="flex items-center gap-4"><Image src="/logo.png" alt="Talent Nexus" width={160} height={107} className="h-16 w-auto object-contain" /><span>{t.footer}</span></div><div className="flex flex-col gap-1 sm:items-end"><a href="mailto:HR@talentnexus.com.tw" className="transition hover:text-cyan">HR@talentnexus.com.tw</a><span>© {new Date().getFullYear()} Talent Nexus</span></div></div></footer>
   </main>;
