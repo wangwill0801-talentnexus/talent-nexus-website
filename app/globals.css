@@ -8,7 +8,7 @@ html { scroll-behavior: smooth; }
 body { margin: 0; color: #0b1f3a; background: #fff; font-family: Arial, "Noto Sans TC", sans-serif; transition: color .45s ease, background-color .45s ease; }
 html.dark body { color: #e8f3ff; background: #071426; }
 html.dark header { background: rgba(7,20,38,.9); }
-html.dark .logo-float { background: rgba(255,255,255,.94); border-radius: 18px; padding: 4px 10px; box-shadow: 0 0 32px rgba(22,220,197,.16); }
+html.dark .logo-float { filter: drop-shadow(0 0 18px rgba(22,220,197,.24)); }
 html.dark .bg-white { background-color: #0d2036; }
 html.dark .bg-mist { background-color: #0a192c; }
 html.dark .text-navy { color: #e8f3ff; }
@@ -31,7 +31,11 @@ html.dark .grid-lines { background-image: linear-gradient(rgba(22,220,197,.08) 1
 .orbit-reverse { animation: orbit-reverse 13s linear infinite; }
 .pulse-node { animation: node-pulse 2.4s ease-in-out infinite; }
 .float-node { animation: float 4s ease-in-out infinite; }
-.nexus-card { animation: float-card 5s ease-in-out infinite; }
+.nexus-card { animation: float-card 5s ease-in-out infinite; isolation: isolate; box-shadow: inset 0 0 38px rgba(22,220,197,.08), 0 24px 70px rgba(4,19,38,.3); }
+.nexus-card::before { content: ""; position: absolute; inset: -7px; z-index: -1; border-radius: 999px; padding: 2px; background: conic-gradient(from 0deg, #16dcc5, #d9b86c, #eef5fb, #16dcc5); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; animation: ring-spin 8s linear infinite; }
+.nexus-card::after { content: ""; position: absolute; inset: 18px; z-index: -1; border-radius: 999px; border: 1px solid rgba(255,255,255,.08); box-shadow: 0 0 34px rgba(22,220,197,.16); }
+.metal-gold { background: linear-gradient(110deg, #8a6a25 0%, #f8e7a6 35%, #c99d3d 60%, #fff2bd 82%, #8a6a25 100%); background-size: 200% auto; background-clip: text; -webkit-background-clip: text; color: transparent; animation: metal-flow 4s linear infinite; }
+.metal-silver { background: linear-gradient(110deg, #8996a3 0%, #ffffff 28%, #b7c2cc 52%, #f8fbff 72%, #7d8996 100%); background-size: 200% auto; background-clip: text; -webkit-background-clip: text; color: transparent; animation: metal-flow 5s linear infinite reverse; }
 .logo-float { animation: logo-float 5s ease-in-out infinite; }
 .theme-toggle { box-shadow: 0 0 0 0 rgba(22,220,197,0); }
 .theme-toggle:hover { box-shadow: 0 0 0 7px rgba(22,220,197,.12), 0 0 25px rgba(22,220,197,.25); transform: rotate(12deg); }
@@ -40,6 +44,18 @@ html.dark .grid-lines { background-image: linear-gradient(rgba(22,220,197,.08) 1
 .service-reveal:hover { transform: translateY(-12px) scale(1.02) rotateX(2deg); box-shadow: 0 28px 70px rgba(5,24,46,.16); }
 .commitment-card { transition: transform .35s ease, border-color .35s ease, box-shadow .35s ease; }
 .commitment-card:hover { transform: translateY(-8px); border-color: rgb(var(--cyan)); box-shadow: 0 22px 55px rgba(5,24,46,.14); }
+.scroll-progress { width: var(--scroll-progress, 0%); box-shadow: 0 0 16px rgba(22,220,197,.8); transition: width .08s linear; }
+.pointer-glow { background: radial-gradient(420px circle at var(--pointer-x, 50%) var(--pointer-y, 20%), rgba(22,220,197,.105), transparent 70%); mix-blend-mode: multiply; }
+html.dark .pointer-glow { mix-blend-mode: screen; background: radial-gradient(460px circle at var(--pointer-x, 50%) var(--pointer-y, 20%), rgba(22,220,197,.14), transparent 72%); }
+.headline-shimmer { background: linear-gradient(100deg, rgb(var(--navy)) 15%, #168b86 44%, rgb(var(--navy)) 62%); background-size: 240% auto; background-clip: text; -webkit-background-clip: text; color: transparent; animation: headline-shimmer 7s ease-in-out infinite; }
+html.dark .headline-shimmer { background-image: linear-gradient(100deg, #f1f7ff 15%, rgb(var(--cyan)) 44%, #f1f7ff 62%); }
+.marquee-shell::before, .marquee-shell::after { content: ""; position: absolute; inset-block: 0; z-index: 2; width: 100px; pointer-events: none; }
+.marquee-shell::before { left: 0; background: linear-gradient(90deg, rgb(var(--navy)), transparent); }
+.marquee-shell::after { right: 0; background: linear-gradient(-90deg, rgb(var(--navy)), transparent); }
+.marquee-track { animation: marquee 24s linear infinite; }
+.service-reveal, .commitment-card { position: relative; overflow: hidden; }
+.service-reveal::before, .commitment-card::before { content: ""; position: absolute; inset: 0; opacity: 0; background: linear-gradient(125deg, transparent 20%, rgba(22,220,197,.12), transparent 70%); transform: translateX(-100%); transition: opacity .25s ease, transform .7s ease; pointer-events: none; }
+.service-reveal:hover::before, .commitment-card:hover::before { opacity: 1; transform: translateX(100%); }
 @keyframes fade-up { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes card-reveal { to { opacity: 1; transform: translateY(0) scale(1); } }
 @keyframes breathe { 0%, 100% { opacity: .55; transform: scale(.92); } 50% { opacity: 1; transform: scale(1.08); } }
@@ -48,7 +64,11 @@ html.dark .grid-lines { background-image: linear-gradient(rgba(22,220,197,.08) 1
 @keyframes node-pulse { 0%, 100% { transform: scale(.85); } 50% { transform: scale(1.25); } }
 @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
 @keyframes float-card { 0%, 100% { margin-top: 0; } 50% { margin-top: -10px; } }
+@keyframes ring-spin { to { transform: rotate(360deg); } }
+@keyframes metal-flow { to { background-position: 200% center; } }
 @keyframes logo-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
 @keyframes grid-drift { to { background-position: 48px 48px; } }
 @keyframes shine { 0%, 55% { left: -45%; } 85%, 100% { left: 125%; } }
-@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .fade-up, .service-reveal, .ambient-glow, .orbit-slow, .orbit-reverse, .pulse-node, .float-node, .nexus-card, .logo-float, .grid-lines, .shine-button::after { animation: none; } .reveal-on-scroll, .service-reveal { opacity: 1; transform: none; transition: none; } }
+@keyframes headline-shimmer { 0%, 25% { background-position: 100% center; } 65%, 100% { background-position: -100% center; } }
+@keyframes marquee { to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .fade-up, .service-reveal, .ambient-glow, .orbit-slow, .orbit-reverse, .pulse-node, .float-node, .nexus-card, .nexus-card::before, .metal-gold, .metal-silver, .logo-float, .grid-lines, .shine-button::after, .headline-shimmer, .marquee-track { animation: none; } .reveal-on-scroll, .service-reveal { opacity: 1; transform: none; transition: none; } .pointer-glow { display: none; } }
