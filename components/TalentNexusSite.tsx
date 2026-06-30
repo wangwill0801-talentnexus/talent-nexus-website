@@ -7,8 +7,20 @@ import { FormEvent, useEffect, useState } from "react";
 type Lang = "en" | "tw";
 type Theme = "light" | "dark";
 
+const seo = {
+  en: {
+    title: "Talent Nexus Taiwan | Executive Search and Recruitment Services",
+    description: "Talent Nexus Taiwan provides executive search and professional recruitment services across technology, semiconductors, software, electronics and specialist functions, helping companies find suitable talent and professionals explore career opportunities."
+  },
+  tw: {
+    title: "Talent Nexus Taiwan｜英鏈人才顧問有限公司｜專業獵頭與人才招募服務",
+    description: "Talent Nexus Taiwan 英鏈人才顧問有限公司提供科技、半導體、軟體、電子及專業人才獵頭與招募服務，協助企業找到合適人才，也協助候選人探索職涯機會。"
+  }
+} as const;
+
 const copy = {
   en: {
+    brandName: "Talent Nexus",
     nav: ["About", "Services", "Contact", "AI Tools"],
     kicker: "EXECUTIVE SEARCH · TALENT INTELLIGENCE",
     headline: "We Don't Fill Vacancies. We Engineer Market Leaders.",
@@ -43,6 +55,7 @@ const copy = {
     footer: "Precision in Professional Placement"
   },
   tw: {
+    brandName: "Talent Nexus 英鏈人才",
     nav: ["關於我們", "專業服務", "聯絡我們", "AI 工具"],
     kicker: "高階獵才 · 人才情報",
     headline: "We Don't Fill Vacancies. We Engineer Market Leaders.",
@@ -86,6 +99,12 @@ export function TalentNexusSite() {
   const [sent, setSent] = useState(false);
   const [theme, setTheme] = useState<Theme>("light");
   const t = copy[lang];
+
+  useEffect(() => {
+    document.documentElement.lang = lang === "en" ? "en" : "zh-Hant";
+    document.title = seo[lang].title;
+    document.querySelector('meta[name="description"]')?.setAttribute("content", seo[lang].description);
+  }, [lang]);
 
   useEffect(() => {
     const saved = window.localStorage.getItem("talent-nexus-theme") as Theme | null;
@@ -149,7 +168,7 @@ export function TalentNexusSite() {
     <div className="pointer-glow pointer-events-none fixed inset-0 z-0" aria-hidden="true" />
     <header className="fixed inset-x-0 top-0 z-50 border-b border-navy/10 bg-white/90 backdrop-blur-xl">
       <div className="mx-auto flex h-28 max-w-7xl items-center justify-between px-5 lg:px-8">
-        <a href="#top" aria-label="Talent Nexus home" className="logo-float flex shrink-0 items-center"><Image src="/logo.png" alt="Talent Nexus" width={310} height={208} priority className="block h-20 w-auto object-contain sm:h-24 dark:hidden" /><Image src="/logo-dark.png" alt="Talent Nexus" width={310} height={208} priority className="hidden h-20 w-auto object-contain sm:h-24 dark:block" /></a>
+        <a href="#top" aria-label={`${t.brandName} home`} className="logo-float flex min-w-0 shrink items-center gap-2"><Image src="/logo.png" alt={t.brandName} width={310} height={208} priority className="block h-16 w-auto object-contain sm:h-24 dark:hidden" /><Image src="/logo-dark.png" alt={t.brandName} width={310} height={208} priority className="hidden h-16 w-auto object-contain sm:h-24 dark:block" /><span className="max-w-28 text-xs font-bold leading-tight text-navy sm:max-w-none dark:text-white">{lang === "tw" ? "英鏈人才" : ""}</span></a>
         <nav className="hidden items-center gap-9 md:flex">
           {["about", "services", "contact"].map((id, i) => <a key={id} href={`#${id}`} className="text-sm font-semibold text-navy/70 transition hover:text-teal-600 dark:text-white/80 dark:hover:text-cyan">{t.nav[i]}</a>)}
           <a href="https://tnt.talentnexus.com.tw" target="_blank" rel="noopener noreferrer" className="text-sm font-semibold text-navy/70 transition hover:text-teal-600 dark:text-white/80 dark:hover:text-cyan">{t.nav[3]}</a>
@@ -158,13 +177,14 @@ export function TalentNexusSite() {
         </nav>
         <button onClick={toggleTheme} className="mr-3 inline-flex h-10 w-10 items-center md:hidden justify-center rounded-full border border-navy/15" aria-label={theme === "light" ? "Switch to dark mode" : "Switch to light mode"}>{theme === "light" ? <Moon size={18} /> : <Sun size={18} />}</button><button className="md:hidden" onClick={() => setMenuOpen(!menuOpen)} aria-label="Open menu">{menuOpen ? <X /> : <Menu />}</button>
       </div>
-      {menuOpen && <div className="border-t border-navy/10 bg-white px-5 py-5 md:hidden">{["about", "services", "contact"].map((id, i) => <a key={id} onClick={() => setMenuOpen(false)} href={`#${id}`} className="block py-3 font-semibold">{t.nav[i]}</a>)}<a href="https://tnt.talentnexus.com.tw" target="_blank" rel="noopener noreferrer" onClick={() => setMenuOpen(false)} className="block py-3 font-semibold">{t.nav[3]}</a><button onClick={() => { setLang(lang === "en" ? "tw" : "en"); setMenuOpen(false); }} className="mt-2 rounded-full border px-4 py-2 text-sm font-bold">EN / 繁中</button></div>}
+      {menuOpen && <div className="border-t border-navy/10 bg-white px-5 py-5 md:hidden"><p className="mb-2 break-words text-sm font-bold text-teal-700">{t.brandName}</p>{["about", "services", "contact"].map((id, i) => <a key={id} onClick={() => setMenuOpen(false)} href={`#${id}`} className="block py-3 font-semibold">{t.nav[i]}</a>)}<a href="https://tnt.talentnexus.com.tw" target="_blank" rel="noopener noreferrer" onClick={() => setMenuOpen(false)} className="block py-3 font-semibold">{t.nav[3]}</a><button onClick={() => { setLang(lang === "en" ? "tw" : "en"); setMenuOpen(false); }} className="mt-2 rounded-full border px-4 py-2 text-sm font-bold">EN / 繁中</button></div>}
     </header>
 
     <section id="top" className="grid-lines relative min-h-screen pt-28">
       <div className="ambient-glow absolute right-[-10rem] top-28 h-96 w-96 rounded-full bg-cyan/20 blur-3xl" />
       <div className="mx-auto grid min-h-[calc(100vh-7rem)] max-w-7xl items-center px-5 py-20 lg:grid-cols-[1fr_.65fr] lg:px-8">
         <div className="relative z-10 max-w-4xl">
+          <p className="fade-up mb-3 text-sm font-bold text-teal-700">{t.brandName}</p>
           <p className="fade-up mb-7 text-xs font-bold tracking-[.24em] text-teal-600">{t.kicker}</p>
           <h1 className="headline-shimmer fade-up delay-1 text-5xl font-bold leading-[1.03] tracking-[-.055em] text-navy sm:text-6xl lg:text-8xl">{t.headline}</h1>
           <p className="fade-up delay-2 mt-8 max-w-2xl text-lg leading-8 text-ink/70 sm:text-xl">{t.sub}</p>
@@ -193,6 +213,6 @@ export function TalentNexusSite() {
 
     <section id="contact" className="reveal-on-scroll bg-navy py-24 text-white sm:py-32"><div className="mx-auto grid max-w-7xl gap-14 px-5 lg:grid-cols-2 lg:px-8"><div><p className="text-xs font-bold tracking-[.24em] text-cyan">{t.contactLabel}</p><h2 className="mt-6 max-w-xl text-4xl font-bold leading-tight tracking-tight sm:text-6xl">{t.contact}</h2><div className="mt-10 grid gap-4 text-sm text-white/70"><a href="tel:+886277354467" className="flex items-center gap-3 transition hover:text-cyan"><Phone size={18} className="text-cyan" />+886-2-7735-4467</a><a href="mailto:HR@talentnexus.com.tw" className="flex items-center gap-3 transition hover:text-cyan"><Mail size={18} className="text-cyan" />HR@talentnexus.com.tw</a><a href="https://talentnexus.com.tw" className="flex items-center gap-3 transition hover:text-cyan"><Globe size={18} className="text-cyan" />talentnexus.com.tw</a><address className="flex max-w-md items-start gap-3 not-italic leading-6"><MapPin size={18} className="mt-0.5 shrink-0 text-cyan" />11F., No. 335, Ruiguang Rd., Neihu Dist., Taipei City</address></div></div><form name="contact" method="POST" data-netlify="true" onSubmit={submit} className="grid gap-5"><input type="hidden" name="form-name" value="contact" />{t.fields.slice(0,3).map((field, i) => <label key={field} className="text-sm text-white/60">{field}<input required name={["name","email","company"][i]} type={i === 1 ? "email" : "text"} className="mt-2 w-full rounded-xl border border-white/15 bg-white/5 px-4 py-4 text-white outline-none transition focus:border-cyan" /></label>)}<label className="text-sm text-white/60">{t.fields[3]}<textarea required name="message" rows={4} className="mt-2 w-full resize-none rounded-xl border border-white/15 bg-white/5 px-4 py-4 text-white outline-none transition focus:border-cyan" /></label><button className="shine-button mt-2 inline-flex items-center justify-center gap-2 rounded-full bg-cyan px-7 py-4 font-bold text-navy transition hover:bg-white">{t.submit}<ArrowRight size={18} /></button>{sent && <p className="text-center text-sm text-cyan" role="status">{t.sent}</p>}</form></div></section>
 
-    <footer className="bg-[#07162a] py-8 text-white"><div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-5 text-center text-sm text-white/50 sm:flex-row sm:text-left lg:px-8"><div className="flex items-center gap-4"><Image src="/logo.png" alt="Talent Nexus" width={160} height={107} className="block h-16 w-auto object-contain dark:hidden" /><Image src="/logo-dark.png" alt="Talent Nexus" width={160} height={107} className="hidden h-16 w-auto object-contain dark:block" /><span>{t.footer}</span></div><div className="flex flex-col gap-1 sm:items-end"><a href="mailto:HR@talentnexus.com.tw" className="transition hover:text-cyan">HR@talentnexus.com.tw</a><span>© {new Date().getFullYear()} Talent Nexus</span></div></div></footer>
+    <footer className="bg-[#07162a] py-8 text-white"><div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-5 px-5 text-center text-sm text-white/50 sm:flex-row sm:text-left lg:px-8"><div className="flex min-w-0 flex-col items-center gap-2 sm:flex-row sm:gap-4"><Image src="/logo.png" alt={t.brandName} width={160} height={107} className="block h-16 w-auto object-contain dark:hidden" /><Image src="/logo-dark.png" alt={t.brandName} width={160} height={107} className="hidden h-16 w-auto object-contain dark:block" /><div><p className="break-words font-semibold text-white/85">{t.brandName}</p><span>{t.footer}</span></div></div><div className="flex min-w-0 max-w-full flex-col gap-1 break-words sm:items-end"><span className="font-semibold text-white/85">Talent Nexus Taiwan｜英鏈人才顧問有限公司</span><a href="mailto:HR@talentnexus.com.tw" className="transition hover:text-cyan">HR@talentnexus.com.tw</a><span>© {new Date().getFullYear()} Talent Nexus Taiwan｜英鏈人才顧問有限公司. All rights reserved.</span></div></div></footer>
   </main>;
 }
