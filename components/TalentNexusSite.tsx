@@ -115,6 +115,21 @@ export function TalentNexusSite() {
     return () => observer.disconnect();
   }, [lang]);
 
+  useEffect(() => {
+    const updateProgress = () => {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      document.documentElement.style.setProperty("--scroll-progress", `${max > 0 ? (window.scrollY / max) * 100 : 0}%`);
+    };
+    updateProgress();
+    window.addEventListener("scroll", updateProgress, { passive: true });
+    return () => window.removeEventListener("scroll", updateProgress);
+  }, []);
+
+  function trackPointer(event: React.PointerEvent<HTMLElement>) {
+    event.currentTarget.style.setProperty("--pointer-x", `${event.clientX}px`);
+    event.currentTarget.style.setProperty("--pointer-y", `${event.clientY}px`);
+  }
+
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = event.currentTarget;
@@ -129,10 +144,12 @@ export function TalentNexusSite() {
     }
   }
 
-  return <main className="overflow-hidden">
+  return <main className="site-stage overflow-hidden" onPointerMove={trackPointer}>
+    <div className="scroll-progress fixed left-0 top-0 z-[70] h-[3px] bg-cyan" aria-hidden="true" />
+    <div className="pointer-glow pointer-events-none fixed inset-0 z-0" aria-hidden="true" />
     <header className="fixed inset-x-0 top-0 z-50 border-b border-navy/10 bg-white/90 backdrop-blur-xl">
       <div className="mx-auto flex h-28 max-w-7xl items-center justify-between px-5 lg:px-8">
-        <a href="#top" aria-label="Talent Nexus home" className="logo-float flex shrink-0 items-center"><Image src="/logo.png" alt="Talent Nexus" width={310} height={208} priority className="h-20 w-auto object-contain sm:h-24" /></a>
+        <a href="#top" aria-label="Talent Nexus home" className="logo-float flex shrink-0 items-center"><Image src="/logo.png" alt="Talent Nexus" width={310} height={208} priority className="block h-20 w-auto object-contain sm:h-24 dark:hidden" /><Image src="/logo-dark.png" alt="Talent Nexus" width={310} height={208} priority className="hidden h-20 w-auto object-contain sm:h-24 dark:block" /></a>
         <nav className="hidden items-center gap-9 md:flex">
           {["about", "services", "contact"].map((id, i) => <a key={id} href={`#${id}`} className="text-sm font-semibold text-navy/70 transition hover:text-teal-600 dark:text-white/80 dark:hover:text-cyan">{t.nav[i]}</a>)}
           <a href="https://tnt.talentnexus.com.tw" target="_blank" rel="noopener noreferrer" className="text-sm font-semibold text-navy/70 transition hover:text-teal-600 dark:text-white/80 dark:hover:text-cyan">{t.nav[3]}</a>
@@ -149,7 +166,7 @@ export function TalentNexusSite() {
       <div className="mx-auto grid min-h-[calc(100vh-7rem)] max-w-7xl items-center px-5 py-20 lg:grid-cols-[1fr_.65fr] lg:px-8">
         <div className="relative z-10 max-w-4xl">
           <p className="fade-up mb-7 text-xs font-bold tracking-[.24em] text-teal-600">{t.kicker}</p>
-          <h1 className="fade-up delay-1 text-5xl font-bold leading-[1.03] tracking-[-.055em] text-navy sm:text-6xl lg:text-8xl">{t.headline}</h1>
+          <h1 className="headline-shimmer fade-up delay-1 text-5xl font-bold leading-[1.03] tracking-[-.055em] text-navy sm:text-6xl lg:text-8xl">{t.headline}</h1>
           <p className="fade-up delay-2 mt-8 max-w-2xl text-lg leading-8 text-ink/70 sm:text-xl">{t.sub}</p>
           <div className="fade-up delay-2 mt-10 flex flex-col gap-3 sm:flex-row">
             <a href="#contact" className="shine-button inline-flex items-center justify-center gap-2 rounded-full bg-cyan px-7 py-4 font-bold text-navy transition hover:-translate-y-1 hover:shadow-lg">{t.ctas[0]} <ArrowRight size={18} /></a>
@@ -159,10 +176,12 @@ export function TalentNexusSite() {
         <div className="relative hidden h-[34rem] lg:block">
           <div className="orbit-slow absolute inset-16 rounded-full border border-navy/15" /><div className="orbit-reverse absolute inset-28 rounded-full border border-cyan/50" />
           <div className="pulse-node absolute left-4 top-16 h-3 w-3 rounded-full bg-cyan shadow-[0_0_0_12px_rgba(22,220,197,.12)]" /><div className="float-node absolute bottom-24 right-10 h-5 w-5 rounded-full bg-navy" />
-          <div className="nexus-card absolute left-1/2 top-1/2 w-52 -translate-x-1/2 -translate-y-1/2 rounded-3xl bg-navy p-7 text-white shadow-soft"><span className="text-xs tracking-[.18em] text-cyan">THE NEXUS</span><p className="mt-3 text-2xl font-bold">Talent meets opportunity.</p></div>
+          <div className="nexus-card absolute left-1/2 top-1/2 flex h-60 w-60 -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center rounded-full border border-white/15 bg-navy/95 p-8 text-center text-white shadow-soft"><span className="metal-gold text-xs font-bold tracking-[.22em]">THE NEXUS</span><p className="metal-silver mt-4 text-2xl font-bold leading-tight">Talent meets opportunity.</p></div>
         </div>
       </div>
     </section>
+
+    <div className="marquee-shell relative z-10 overflow-hidden border-y border-navy/10 bg-navy py-4 text-white"><div className="marquee-track flex w-max items-center gap-10 whitespace-nowrap text-xs font-bold tracking-[.22em] text-cyan"><span>SEMICONDUCTORS</span><span>◆</span><span>AI & SOFTWARE</span><span>◆</span><span>HARDWARE</span><span>◆</span><span>EXECUTIVE SEARCH</span><span>◆</span><span>TALENT INTELLIGENCE</span><span>◆</span><span>SEMICONDUCTORS</span><span>◆</span><span>AI & SOFTWARE</span><span>◆</span><span>HARDWARE</span><span>◆</span><span>EXECUTIVE SEARCH</span><span>◆</span><span>TALENT INTELLIGENCE</span></div></div>
 
     <section id="about" className="reveal-on-scroll bg-mist py-24 sm:py-32"><div className="mx-auto max-w-7xl px-5 lg:px-8"><div className="grid gap-12 lg:grid-cols-[.7fr_1.3fr]"><div><p className="text-xs font-bold tracking-[.24em] text-teal-600">{t.aboutLabel}</p><h2 className="mt-5 text-4xl font-bold tracking-tight sm:text-5xl">{t.aboutTitle}</h2></div><div><p className="max-w-3xl text-xl leading-9 text-ink/75 sm:text-2xl sm:leading-10">{t.about}</p><p className="mt-7 max-w-3xl text-base leading-8 text-ink/60">{t.aboutLead}</p></div></div><div className="mt-16 grid gap-5 md:grid-cols-3">{t.principles.map((item, i) => <div key={item[0]} className="border-t border-navy/15 pt-6"><span className="text-xs font-bold text-teal-600">0{i + 1}</span><h3 className="mt-3 text-lg font-bold">{item[0]}</h3><p className="mt-2 leading-7 text-ink/60">{item[1]}</p></div>)}</div><div className="mt-16 rounded-3xl bg-white p-7 shadow-soft sm:p-10"><p className="text-xs font-bold tracking-[.22em] text-teal-600">{t.sectorsLabel}</p><div className="mt-6 flex flex-wrap gap-3">{t.sectors.map(sector => <span key={sector} className="rounded-full border border-navy/10 bg-mist px-5 py-3 text-sm font-semibold">{sector}</span>)}</div></div></div></section>
 
@@ -174,6 +193,6 @@ export function TalentNexusSite() {
 
     <section id="contact" className="reveal-on-scroll bg-navy py-24 text-white sm:py-32"><div className="mx-auto grid max-w-7xl gap-14 px-5 lg:grid-cols-2 lg:px-8"><div><p className="text-xs font-bold tracking-[.24em] text-cyan">{t.contactLabel}</p><h2 className="mt-6 max-w-xl text-4xl font-bold leading-tight tracking-tight sm:text-6xl">{t.contact}</h2><div className="mt-10 grid gap-4 text-sm text-white/70"><a href="tel:+886277354467" className="flex items-center gap-3 transition hover:text-cyan"><Phone size={18} className="text-cyan" />+886-2-7735-4467</a><a href="mailto:HR@talentnexus.com.tw" className="flex items-center gap-3 transition hover:text-cyan"><Mail size={18} className="text-cyan" />HR@talentnexus.com.tw</a><a href="https://talentnexus.com.tw" className="flex items-center gap-3 transition hover:text-cyan"><Globe size={18} className="text-cyan" />talentnexus.com.tw</a><address className="flex max-w-md items-start gap-3 not-italic leading-6"><MapPin size={18} className="mt-0.5 shrink-0 text-cyan" />11F., No. 335, Ruiguang Rd., Neihu Dist., Taipei City</address></div></div><form name="contact" method="POST" data-netlify="true" onSubmit={submit} className="grid gap-5"><input type="hidden" name="form-name" value="contact" />{t.fields.slice(0,3).map((field, i) => <label key={field} className="text-sm text-white/60">{field}<input required name={["name","email","company"][i]} type={i === 1 ? "email" : "text"} className="mt-2 w-full rounded-xl border border-white/15 bg-white/5 px-4 py-4 text-white outline-none transition focus:border-cyan" /></label>)}<label className="text-sm text-white/60">{t.fields[3]}<textarea required name="message" rows={4} className="mt-2 w-full resize-none rounded-xl border border-white/15 bg-white/5 px-4 py-4 text-white outline-none transition focus:border-cyan" /></label><button className="shine-button mt-2 inline-flex items-center justify-center gap-2 rounded-full bg-cyan px-7 py-4 font-bold text-navy transition hover:bg-white">{t.submit}<ArrowRight size={18} /></button>{sent && <p className="text-center text-sm text-cyan" role="status">{t.sent}</p>}</form></div></section>
 
-    <footer className="bg-[#07162a] py-8 text-white"><div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-5 text-center text-sm text-white/50 sm:flex-row sm:text-left lg:px-8"><div className="flex items-center gap-4"><Image src="/logo.png" alt="Talent Nexus" width={160} height={107} className="h-16 w-auto object-contain" /><span>{t.footer}</span></div><div className="flex flex-col gap-1 sm:items-end"><a href="mailto:HR@talentnexus.com.tw" className="transition hover:text-cyan">HR@talentnexus.com.tw</a><span>© {new Date().getFullYear()} Talent Nexus</span></div></div></footer>
+    <footer className="bg-[#07162a] py-8 text-white"><div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-5 text-center text-sm text-white/50 sm:flex-row sm:text-left lg:px-8"><div className="flex items-center gap-4"><Image src="/logo.png" alt="Talent Nexus" width={160} height={107} className="block h-16 w-auto object-contain dark:hidden" /><Image src="/logo-dark.png" alt="Talent Nexus" width={160} height={107} className="hidden h-16 w-auto object-contain dark:block" /><span>{t.footer}</span></div><div className="flex flex-col gap-1 sm:items-end"><a href="mailto:HR@talentnexus.com.tw" className="transition hover:text-cyan">HR@talentnexus.com.tw</a><span>© {new Date().getFullYear()} Talent Nexus</span></div></div></footer>
   </main>;
 }
