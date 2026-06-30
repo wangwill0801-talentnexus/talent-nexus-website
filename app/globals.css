@@ -8,6 +8,7 @@ html { scroll-behavior: smooth; }
 body { margin: 0; color: #0b1f3a; background: #fff; font-family: Arial, "Noto Sans TC", sans-serif; transition: color .45s ease, background-color .45s ease; }
 html.dark body { color: #e8f3ff; background: #071426; }
 html.dark header { background: rgba(7,20,38,.9); }
+html.dark .logo-float { background: rgba(255,255,255,.94); border-radius: 18px; padding: 4px 10px; box-shadow: 0 0 32px rgba(22,220,197,.16); }
 html.dark .bg-white { background-color: #0d2036; }
 html.dark .bg-mist { background-color: #0a192c; }
 html.dark .text-navy { color: #e8f3ff; }
@@ -37,6 +38,8 @@ html.dark .grid-lines { background-image: linear-gradient(rgba(22,220,197,.08) 1
 .shine-button { position: relative; overflow: hidden; isolation: isolate; }
 .shine-button::after { content: ""; position: absolute; inset: -60% auto -60% -45%; width: 28%; transform: rotate(18deg); background: rgba(255,255,255,.6); filter: blur(2px); animation: shine 3.6s ease-in-out infinite; }
 .service-reveal:hover { transform: translateY(-12px) scale(1.02) rotateX(2deg); box-shadow: 0 28px 70px rgba(5,24,46,.16); }
+.commitment-card { transition: transform .35s ease, border-color .35s ease, box-shadow .35s ease; }
+.commitment-card:hover { transform: translateY(-8px); border-color: rgb(var(--cyan)); box-shadow: 0 22px 55px rgba(5,24,46,.14); }
 @keyframes fade-up { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes card-reveal { to { opacity: 1; transform: translateY(0) scale(1); } }
 @keyframes breathe { 0%, 100% { opacity: .55; transform: scale(.92); } 50% { opacity: 1; transform: scale(1.08); } }
