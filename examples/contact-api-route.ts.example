@@ -1,0 +1,9 @@
+// Optional Next.js API route example for a future server-backed deployment.
+// Move this file to app/api/contact/route.ts and remove `output: "export"`
+// from next.config.mjs before connecting a CRM or email service.
+import { NextResponse } from "next/server";
+
+export async function POST(request: Request) {
+  const body = await request.json();
+  return NextResponse.json({ ok: true, received: Boolean(body?.email) });
+}

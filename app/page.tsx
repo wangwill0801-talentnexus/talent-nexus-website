@@ -1,5 +1,3 @@
-import TalentNexusSite from "@/components/TalentNexusSite";
+import { TalentNexusSite } from "@/components/TalentNexusSite";
 
-export default function Home() {
-  return <TalentNexusSite />;
-}
+export default function Home() { return <TalentNexusSite />; }
