@@ -1,10 +1,16 @@
 import type { Config } from "tailwindcss";
 
 export default {
+  darkMode: "class",
   content: ["./app/**/*.{js,ts,jsx,tsx,mdx}", "./components/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
     extend: {
-      colors: { navy: "#0B1F3A", ink: "#16304F", cyan: "#16DCC5", mist: "#F3F7F9" },
+      colors: {
+        navy: "rgb(var(--navy) / <alpha-value>)",
+        ink: "rgb(var(--ink) / <alpha-value>)",
+        cyan: "rgb(var(--cyan) / <alpha-value>)",
+        mist: "rgb(var(--mist) / <alpha-value>)"
+      },
       boxShadow: { soft: "0 20px 55px rgba(11, 31, 58, 0.08)" }
     }
   },
