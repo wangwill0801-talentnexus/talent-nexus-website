@@ -1,7 +1,8 @@
-node_modules
-.next
-.netlify
+node_modules/
+.next/
+out/
+NETLIFY-DROP-READY/
+.netlify/
+*.log
 .env*
 !.env.example
-npm-debug.log*
-pnpm-debug.log*

@@ -1,18 +1,18 @@
 # Talent Nexus website
 
-Official bilingual website built with Next.js and Tailwind CSS, ready for GitHub and Netlify.
+Official bilingual website for Talent Nexus, built with Next.js and Tailwind CSS.
 
-## Local development
+## Development
 
 ```bash
-npm install
-npm run dev
+pnpm install
+pnpm dev
 ```
 
-## Contact API
+## Build
 
-The form posts to `/api/contact` by default. Set `NEXT_PUBLIC_CONTACT_API` in Netlify to use an external CRM or form endpoint.
+```bash
+pnpm build
+```
 
-## Netlify
-
-Import the GitHub repository in Netlify. The included `netlify.toml` supplies the build command and runtime settings.
+The static production site is generated in `out/` and can be deployed through Netlify Drop. Contact submissions are handled by Netlify Forms. A future API integration example is retained under `examples/`.
