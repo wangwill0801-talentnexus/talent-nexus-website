@@ -10,5 +10,24 @@ body { margin: 0; color: #0b1f3a; background: #fff; font-family: Arial, "Noto Sa
 .fade-up { animation: fade-up .75s ease both; }
 .delay-1 { animation-delay: .12s; }
 .delay-2 { animation-delay: .24s; }
+.reveal-on-scroll { opacity: 0; transform: translateY(34px); transition: opacity .8s ease, transform .8s cubic-bezier(.2,.75,.25,1); }
+.reveal-on-scroll.is-visible { opacity: 1; transform: translateY(0); }
+.service-reveal { opacity: 0; transform: translateY(24px); }
+.is-visible .service-reveal { animation: card-reveal .65s ease forwards; }
+.is-visible .service-reveal:nth-child(2) { animation-delay: .12s; }
+.is-visible .service-reveal:nth-child(3) { animation-delay: .24s; }
+.ambient-glow { animation: breathe 5s ease-in-out infinite; }
+.orbit-slow { animation: orbit 18s linear infinite; }
+.orbit-reverse { animation: orbit-reverse 13s linear infinite; }
+.pulse-node { animation: node-pulse 2.4s ease-in-out infinite; }
+.float-node { animation: float 4s ease-in-out infinite; }
+.nexus-card { animation: float-card 5s ease-in-out infinite; }
 @keyframes fade-up { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
-@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .fade-up { animation: none; } }
+@keyframes card-reveal { to { opacity: 1; transform: translateY(0); } }
+@keyframes breathe { 0%, 100% { opacity: .55; transform: scale(.92); } 50% { opacity: 1; transform: scale(1.08); } }
+@keyframes orbit { to { transform: rotate(360deg); } }
+@keyframes orbit-reverse { to { transform: rotate(-360deg); } }
+@keyframes node-pulse { 0%, 100% { transform: scale(.85); } 50% { transform: scale(1.25); } }
+@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
+@keyframes float-card { 0%, 100% { margin-top: 0; } 50% { margin-top: -10px; } }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .fade-up, .service-reveal, .ambient-glow, .orbit-slow, .orbit-reverse, .pulse-node, .float-node, .nexus-card { animation: none; } .reveal-on-scroll, .service-reveal { opacity: 1; transform: none; transition: none; } }
