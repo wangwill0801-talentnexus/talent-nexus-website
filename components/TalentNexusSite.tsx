@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { ArrowRight, BrainCircuit, Globe, Mail, MapPin, Menu, Moon, Phone, Search, Sun, Target, X } from "lucide-react";
+import { ArrowRight, ChartNoAxesCombined, ChevronRight, Cpu, Factory, FlaskConical, Globe, HeartPulse, Mail, MapPin, Menu, Moon, Phone, Search, ShieldCheck, ShoppingBag, Sun, Target, UsersRound, X } from "lucide-react";
 import { FormEvent, useEffect, useState } from "react";
 
 type Lang = "en" | "tw";
@@ -32,13 +32,23 @@ const copy = {
     aboutLead: "We work as an extension of your hiring team—asking the difficult questions early, mapping the market clearly, and keeping every search moving with honest communication.",
     principles: [["Evidence-led", "Market insight and candidate evidence guide every recommendation."], ["Direct communication", "Clear progress, realistic expectations, and no unnecessary layers."], ["Long-term fit", "We look beyond the résumé to align capability, motivation, and business context."]],
     sectorsLabel: "SECTOR FOCUS",
-    sectors: ["Semiconductors", "Hardware", "Software & AI", "Industrial Technology", "Corporate Leadership", "Diverse Industries"],
+    sectorsTitle: "Specialist markets. One connected talent network.",
+    sectorsHint: "Hover or select a sector to explore our coverage.",
+    sectorInsightLabel: "MARKET INTELLIGENCE",
+    sectorGroups: [
+      ["High-Tech & Electronics", "We connect companies with specialists shaping the next generation of computing and connected systems—from semiconductor innovation and AI infrastructure to power electronics and software. Our searches focus on technical depth, commercial awareness, and the ability to turn complex technology into scalable business impact.", ["Semiconductors", "AI Server & Hardware", "Power Electronics", "Software"]],
+      ["Advanced Manufacturing", "We recruit leaders and specialists who modernize production, strengthen global operations, and improve industrial performance. Our network spans smart factory transformation, resilient supply chains, and automation—connecting practical engineering expertise with the strategic judgment required to deliver measurable change at scale.", ["Smart Factories", "Global Supply Chain", "Industrial Automation"]],
+      ["Chemicals & Materials", "We identify technical and commercial talent across high-value chemicals and materials markets. From specialty formulations and sustainable alternatives to polymers and plastics, we seek professionals who combine scientific fluency, regulatory awareness, customer insight, and disciplined execution across complex global value chains.", ["Specialty Chemicals", "Sustainable Materials", "Polymers & Plastics"]],
+      ["Healthcare & Life Sciences", "We support organizations developing technologies and therapies that improve patient outcomes. Our coverage spans medical devices, biotechnology, pharmaceuticals, and digital health, with a focus on candidates who can navigate scientific complexity, regulated environments, cross-functional development, and responsible commercial growth.", ["Medical Devices & Technology", "Biotechnology", "Pharmaceuticals", "Digital Health"]],
+      ["Consumer & Retail", "We connect consumer businesses with talent that understands product, brand, operations, and changing customer behavior. Across footwear, apparel, FMCG, and lifestyle brands, we prioritize professionals who balance creative market instinct with commercial discipline, supply-chain awareness, and the ability to grow enduring brands.", ["Footwear", "Apparel", "FMCG", "Lifestyle Brands"]]
+    ],
     servicesLabel: "OUR SERVICES",
     servicesTitle: "Built for critical hires.",
     services: [
-      ["Executive Search", "Targeted sourcing for C-level and management roles across various sectors."],
-      ["Strategic Talent Sourcing", "Deep-dive recruitment for critical hardware, software, and cross-disciplinary professionals."],
-      ["AI Intelligence Recruiting", "Leveraging proprietary internal systems to maximize efficiency, leaving more time for genuine human connections."]
+      ["Contingency Search", "Focused on sourcing critical technical professionals and mid-to-senior management across specialized vertical sectors. Leveraging our extensive talent database and deep industry networks, we rapidly connect you with high-impact R&D, engineering, and operations experts to effectively bridge your talent gaps."],
+      ["Retained Search", "Tailored for C-suite executives, highly confidential roles, and scarce industry talent, our Retained Search offers an exclusive, high-commitment partnership. We deploy a dedicated project team to conduct comprehensive market scanning and in-depth Talent Mapping, ensuring we secure top-tier leaders who bring strategic value and vision to your organization."],
+      ["RPO & Volume Hiring", "When your organization faces rapid scaling, new facility establishments, or cross-departmental expansions, we provide customized Recruitment Process Outsourcing solutions. Our specialized team seamlessly integrates with—or acts as an extension of—your internal HR function. From initial resume screening to final interview scheduling, we manage the entire lifecycle to help you efficiently achieve large-scale hiring targets within a tight timeframe."],
+      ["Market Intelligence & Advisory", "Going beyond precise candidate matchmaking, we serve as your strategic human capital advisor. We provide customized Salary Benchmarking, organizational structure recommendations, and the latest talent market trends. Our data-driven insights empower your business to formulate winning recruitment strategies in a highly competitive talent landscape."]
     ],
     serviceNote: "Every engagement is calibrated to the role, market, and urgency. We combine focused research with consistent human judgment—not a one-size-fits-all database search.",
     processLabel: "HOW WE WORK",
@@ -67,13 +77,23 @@ const copy = {
     aboutLead: "我們把自己視為企業招募團隊的延伸：在專案開始時釐清真正需求、具體盤點人才市場，並以透明溝通持續推進每一項搜尋。",
     principles: [["以證據為基礎", "以市場情報與候選人實績作為每一項推薦的依據。"], ["直接透明溝通", "清楚回報進度、務實管理期待，避免不必要的溝通層級。"], ["重視長期適配", "不只核對履歷，更評估能力、動機與企業情境是否一致。"]],
     sectorsLabel: "專注領域",
-    sectors: ["半導體", "硬體科技", "軟體與 AI", "工業科技", "企業管理職", "多元產業"],
+    sectorsTitle: "深耕專業市場，串聯跨產業人才網絡。",
+    sectorsHint: "滑過或點選產業，查看我們的專業領域。",
+    sectorInsightLabel: "市場洞察",
+    sectorGroups: [
+      ["高科技與電子", "我們協助企業連結推動次世代運算與聯網系統的專業人才，涵蓋半導體創新、AI 基礎設施、電力電子與軟體。招募評估兼顧技術深度、商業敏銳度，以及將複雜技術轉化為可規模化成果的能力。", ["半導體", "AI 伺服器與硬體", "電力電子", "軟體"]],
+      ["先進製造", "我們招募能夠推動生產現代化、強化全球營運並提升工業績效的領導者與專業人才。人才網絡涵蓋智慧工廠轉型、韌性供應鏈與工業自動化，重視工程實務與策略判斷的結合。", ["智慧工廠", "全球供應鏈", "工業自動化"]],
+      ["化學與材料", "我們深耕高附加價值化學與材料市場，辨識兼具技術及商業能力的人才。從特用配方、永續替代材料到高分子與塑膠，重視科學素養、法規意識、客戶洞察及全球價值鏈的執行能力。", ["特用化學", "永續材料", "高分子與塑膠"]],
+      ["醫療與生命科學", "我們協助開發改善病患成果之技術與療法的組織，專業領域涵蓋醫療器材、生物科技、製藥與數位健康，聚焦能夠掌握科學複雜度、法規環境、跨部門研發及責任成長的人才。", ["醫療器材與科技", "生物科技", "製藥", "數位健康"]],
+      ["消費與零售", "我們為消費品牌連結理解產品、品牌、營運與顧客變化的人才。涵蓋鞋類、成衣、快速消費品與生活風格品牌，優先尋找兼具市場創意、商業紀律、供應鏈意識與長期品牌成長能力的專業人士。", ["鞋類", "成衣", "快速消費品", "生活風格品牌"]]
+    ],
     servicesLabel: "專業服務",
     servicesTitle: "為關鍵招募而生。",
     services: [
-      ["高階獵頭服務", "針對各產業 C-Level 與高階管理人才的精準獵才。"],
-      ["關鍵人才招募", "針對硬體、軟體與跨領域核心專業人才的深度挖掘。"],
-      ["AI 情報招募", "運用專屬系統提高作業效率，將時間留給真正的人才交流。"]
+      ["專案成功制招募", "聚焦各專業垂直領域的關鍵技術人才與中高階管理職。透過廣泛的人才資料庫與深厚產業網絡，我們快速連結具高度影響力的研發、工程及營運專家，有效補足企業的關鍵人才缺口。"],
+      ["委任制高階獵才", "專為 C-suite 高階主管、高度機密職位及市場稀缺人才設計，提供專屬且高度承諾的合作模式。我們配置專責專案團隊，進行全面市場掃描與深度人才地圖分析，鎖定能為組織帶來策略價值與領導視野的頂尖人才。"],
+      ["RPO 與大量招募", "當企業面臨快速擴張、新據點設立或跨部門增員時，我們提供客製化招募流程委外方案。專業團隊可無縫整合或延伸企業內部 HR 職能，從履歷初篩到最終面試安排，全程管理招募生命週期，協助企業在緊迫時程內有效達成大規模招募目標。"],
+      ["人才市場情報與顧問服務", "我們不只進行精準人才媒合，更擔任企業的策略人力資本顧問。透過客製化薪資基準分析、組織架構建議及最新人才市場趨勢，提供數據驅動的洞察，協助企業在高度競爭的人才市場中制定具優勢的招募策略。"]
     ],
     serviceNote: "每一項委託都依職務、市場與時程重新校準。我們結合聚焦研究與顧問判斷，而非用同一套資料庫搜尋處理所有需求。",
     processLabel: "合作流程",
@@ -91,13 +111,15 @@ const copy = {
   }
 } as const;
 
-const icons = [Target, Search, BrainCircuit];
+const icons = [Target, ShieldCheck, UsersRound, ChartNoAxesCombined];
+const sectorIcons = [Cpu, Factory, FlaskConical, HeartPulse, ShoppingBag];
 
 export function TalentNexusSite() {
   const [lang, setLang] = useState<Lang>("en");
   const [menuOpen, setMenuOpen] = useState(false);
   const [sent, setSent] = useState(false);
   const [theme, setTheme] = useState<Theme>("light");
+  const [activeSector, setActiveSector] = useState(0);
   const t = copy[lang];
 
   useEffect(() => {
@@ -207,9 +229,9 @@ export function TalentNexusSite() {
 
     <div className="marquee-shell relative z-10 overflow-hidden border-y border-navy/10 bg-navy py-4 text-white"><div className="marquee-track flex w-max items-center gap-10 whitespace-nowrap text-xs font-bold tracking-[.22em] text-cyan"><span>SEMICONDUCTORS</span><span>◆</span><span>AI & SOFTWARE</span><span>◆</span><span>HARDWARE</span><span>◆</span><span>EXECUTIVE SEARCH</span><span>◆</span><span>TALENT INTELLIGENCE</span><span>◆</span><span>SEMICONDUCTORS</span><span>◆</span><span>AI & SOFTWARE</span><span>◆</span><span>HARDWARE</span><span>◆</span><span>EXECUTIVE SEARCH</span><span>◆</span><span>TALENT INTELLIGENCE</span></div></div>
 
-    <section id="about" className="reveal-on-scroll bg-mist py-24 sm:py-32"><div className="mx-auto max-w-7xl px-5 lg:px-8"><div className="grid gap-12 lg:grid-cols-[.7fr_1.3fr]"><div><p className="text-xs font-bold tracking-[.24em] text-teal-600">{t.aboutLabel}</p><h2 className="mt-5 text-4xl font-bold tracking-tight sm:text-5xl">{t.aboutTitle}</h2></div><div><p className="max-w-3xl text-xl leading-9 text-ink/75 sm:text-2xl sm:leading-10">{t.about}</p><p className="mt-7 max-w-3xl text-base leading-8 text-ink/60">{t.aboutLead}</p></div></div><div className="mt-16 grid gap-5 md:grid-cols-3">{t.principles.map((item, i) => <div key={item[0]} className="border-t border-navy/15 pt-6"><span className="text-xs font-bold text-teal-600">0{i + 1}</span><h3 className="mt-3 text-lg font-bold">{item[0]}</h3><p className="mt-2 leading-7 text-ink/60">{item[1]}</p></div>)}</div><div className="mt-16 rounded-3xl bg-white p-7 shadow-soft sm:p-10"><p className="text-xs font-bold tracking-[.22em] text-teal-600">{t.sectorsLabel}</p><div className="mt-6 flex flex-wrap gap-3">{t.sectors.map(sector => <span key={sector} className="rounded-full border border-navy/10 bg-mist px-5 py-3 text-sm font-semibold">{sector}</span>)}</div></div></div></section>
+    <section id="about" className="reveal-on-scroll bg-mist py-24 sm:py-32"><div className="mx-auto max-w-7xl px-5 lg:px-8"><div className="grid gap-12 lg:grid-cols-[.7fr_1.3fr]"><div><p className="text-xs font-bold tracking-[.24em] text-teal-600">{t.aboutLabel}</p><h2 className="mt-5 text-4xl font-bold tracking-tight sm:text-5xl">{t.aboutTitle}</h2></div><div><p className="max-w-3xl text-xl leading-9 text-ink/75 sm:text-2xl sm:leading-10">{t.about}</p><p className="mt-7 max-w-3xl text-base leading-8 text-ink/60">{t.aboutLead}</p></div></div><div className="mt-16 grid gap-5 md:grid-cols-3">{t.principles.map((item, i) => <div key={item[0]} className="border-t border-navy/15 pt-6"><span className="text-xs font-bold text-teal-600">0{i + 1}</span><h3 className="mt-3 text-lg font-bold">{item[0]}</h3><p className="mt-2 leading-7 text-ink/60">{item[1]}</p></div>)}</div><div className="sector-explorer mt-16 overflow-hidden rounded-[2rem] border border-navy/10 bg-white p-7 shadow-soft sm:p-10"><div className="grid gap-4 sm:grid-cols-[1fr_auto] sm:items-end"><div><p className="text-xs font-bold tracking-[.22em] text-teal-600">{t.sectorsLabel}</p><h3 className="mt-4 max-w-2xl text-2xl font-bold tracking-tight sm:text-3xl">{t.sectorsTitle}</h3></div><p className="max-w-xs text-sm leading-6 text-ink/60 sm:text-right">{t.sectorsHint}</p></div><div className="mt-9 grid gap-5 lg:grid-cols-[.92fr_1.08fr]"><div className="grid gap-2">{t.sectorGroups.map((group, i) => { const SectorIcon = sectorIcons[i]; const active = activeSector === i; return <button key={group[0]} type="button" onMouseEnter={() => setActiveSector(i)} onFocus={() => setActiveSector(i)} onClick={() => setActiveSector(i)} aria-expanded={active} aria-controls="sector-detail" className={`sector-trigger group flex w-full items-center gap-4 rounded-2xl border px-4 py-4 text-left transition ${active ? "is-active border-cyan bg-navy text-white" : "border-navy/10 bg-mist hover:border-cyan"}`}><span className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl transition ${active ? "bg-cyan text-navy" : "bg-white text-teal-700 group-hover:bg-cyan group-hover:text-navy"}`}><SectorIcon size={21} /></span><span className="min-w-0 flex-1 font-bold">{group[0]}</span><ChevronRight size={18} className={`shrink-0 transition ${active ? "translate-x-1 text-cyan" : "text-navy/35"}`} /></button>; })}</div><div id="sector-detail" key={`${lang}-${activeSector}`} className="sector-detail relative min-h-72 overflow-hidden rounded-3xl bg-navy p-7 text-white sm:p-9"><div className="sector-orbit" aria-hidden="true" /><span className="relative text-xs font-bold tracking-[.22em] text-cyan">0{activeSector + 1} / 05</span><h4 className="relative mt-5 max-w-md text-3xl font-bold leading-tight">{t.sectorGroups[activeSector][0]}</h4><div className="sector-description relative mt-5 overflow-hidden rounded-2xl border border-cyan/20 bg-white/5 p-5"><span className="text-[10px] font-bold tracking-[.2em] text-cyan">{t.sectorInsightLabel}</span><p className="mt-3 text-sm leading-6 text-white/70">{t.sectorGroups[activeSector][1]}</p></div><div className="relative mt-6 grid gap-3 sm:grid-cols-2">{t.sectorGroups[activeSector][2].map((specialty, i) => <div key={specialty} className="sector-specialty flex items-center gap-3 rounded-xl border border-white/10 bg-white/5 px-4 py-3.5" style={{ animationDelay: `${i * 70}ms` }}><span className="h-1.5 w-1.5 shrink-0 rounded-full bg-cyan shadow-[0_0_12px_rgba(22,220,197,.9)]" /><span className="text-sm font-semibold text-white/85">{specialty}</span></div>)}</div></div></div></div></div></section>
 
-    <section id="services" className="reveal-on-scroll py-24 sm:py-32"><div className="mx-auto max-w-7xl px-5 lg:px-8"><p className="text-xs font-bold tracking-[.24em] text-teal-600">{t.servicesLabel}</p><div className="mt-5 grid items-end gap-6 lg:grid-cols-2"><h2 className="text-4xl font-bold tracking-tight sm:text-5xl">{t.servicesTitle}</h2><p className="max-w-xl leading-7 text-ink/60 lg:justify-self-end">{t.serviceNote}</p></div><div className="mt-14 grid gap-5 lg:grid-cols-3">{t.services.map((service, i) => { const Icon = icons[i]; return <article key={service[0]} className="service-reveal group rounded-3xl border border-navy/10 bg-white p-8 transition duration-300 hover:-translate-y-2 hover:border-cyan hover:shadow-soft"><div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-cyan/15 text-teal-700 transition group-hover:bg-cyan"><Icon size={23} /></div><span className="mt-10 block text-sm font-bold text-navy/35">0{i + 1}</span><h3 className="mt-3 text-2xl font-bold">{service[0]}</h3><p className="mt-4 leading-7 text-ink/65">{service[1]}</p></article>; })}</div></div></section>
+    <section id="services" className="reveal-on-scroll py-24 sm:py-32"><div className="mx-auto max-w-7xl px-5 lg:px-8"><p className="text-xs font-bold tracking-[.24em] text-teal-600">{t.servicesLabel}</p><div className="mt-5 grid items-end gap-6 lg:grid-cols-2"><h2 className="text-4xl font-bold tracking-tight sm:text-5xl">{t.servicesTitle}</h2><p className="max-w-xl leading-7 text-ink/60 lg:justify-self-end">{t.serviceNote}</p></div><div className="mt-14 grid gap-5 md:grid-cols-2 xl:grid-cols-4">{t.services.map((service, i) => { const Icon = icons[i]; return <article key={service[0]} className="service-reveal group rounded-3xl border border-navy/10 bg-white p-7 transition duration-300 hover:-translate-y-2 hover:border-cyan hover:shadow-soft"><div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-cyan/15 text-teal-700 transition group-hover:bg-cyan"><Icon size={23} /></div><span className="mt-9 block text-sm font-bold text-navy/35">0{i + 1}</span><h3 className="mt-3 text-xl font-bold leading-tight">{service[0]}</h3><p className="mt-4 text-sm leading-7 text-ink/65">{service[1]}</p></article>; })}</div></div></section>
 
     <section className="reveal-on-scroll border-y border-navy/10 bg-mist py-24 sm:py-32"><div className="mx-auto max-w-7xl px-5 lg:px-8"><p className="text-xs font-bold tracking-[.24em] text-teal-600">{t.processLabel}</p><h2 className="mt-5 max-w-2xl text-4xl font-bold tracking-tight sm:text-5xl">{t.processTitle}</h2><div className="mt-14 grid gap-8 md:grid-cols-2 lg:grid-cols-4">{t.process.map((step, i) => <article key={step[0]} className="relative border-l border-navy/15 pl-6"><span className="text-sm font-bold text-teal-600">0{i + 1}</span><h3 className="mt-4 text-xl font-bold">{step[0]}</h3><p className="mt-3 leading-7 text-ink/60">{step[1]}</p></article>)}</div></div></section>
 

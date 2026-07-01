@@ -56,6 +56,20 @@ html.dark .headline-shimmer { background-image: linear-gradient(100deg, #f1f7ff 
 .service-reveal, .commitment-card { position: relative; overflow: hidden; }
 .service-reveal::before, .commitment-card::before { content: ""; position: absolute; inset: 0; opacity: 0; background: linear-gradient(125deg, transparent 20%, rgba(22,220,197,.12), transparent 70%); transform: translateX(-100%); transition: opacity .25s ease, transform .7s ease; pointer-events: none; }
 .service-reveal:hover::before, .commitment-card:hover::before { opacity: 1; transform: translateX(100%); }
+.sector-explorer { position: relative; isolation: isolate; }
+.sector-explorer::before { content: ""; position: absolute; inset: -40% -20% auto 45%; z-index: -1; height: 320px; border-radius: 999px; background: radial-gradient(circle, rgba(22,220,197,.13), transparent 68%); animation: sector-glow 6s ease-in-out infinite; }
+.sector-trigger { position: relative; overflow: hidden; }
+.sector-trigger::after { content: ""; position: absolute; inset: 0 auto 0 0; width: 3px; background: rgb(var(--cyan)); transform: scaleY(0); transition: transform .3s ease; }
+.sector-trigger.is-active::after { transform: scaleY(1); }
+.sector-detail { isolation: isolate; box-shadow: inset 0 0 50px rgba(22,220,197,.07); animation: sector-panel-in .45s cubic-bezier(.2,.75,.25,1) both; }
+.sector-detail::before { content: ""; position: absolute; inset: 0; z-index: -1; background-image: linear-gradient(rgba(22,220,197,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(22,220,197,.06) 1px, transparent 1px); background-size: 36px 36px; mask-image: linear-gradient(135deg, #000, transparent 80%); }
+.sector-orbit { position: absolute; right: -90px; top: -90px; width: 260px; height: 260px; border: 1px solid rgba(22,220,197,.28); border-radius: 999px; box-shadow: 0 0 0 34px rgba(22,220,197,.045), 0 0 0 68px rgba(22,220,197,.025); animation: orbit 18s linear infinite; }
+.sector-orbit::after { content: ""; position: absolute; left: 32px; top: 25px; width: 9px; height: 9px; border-radius: 999px; background: rgb(var(--cyan)); box-shadow: 0 0 18px rgba(22,220,197,.9); }
+.sector-description { backdrop-filter: blur(12px); }
+.sector-description::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 2px; background: linear-gradient(transparent, rgb(var(--cyan)), transparent); box-shadow: 0 0 14px rgba(22,220,197,.8); }
+.sector-description::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(105deg, transparent 35%, rgba(22,220,197,.12) 50%, transparent 65%); transform: translateX(-120%); animation: intelligence-scan 4.8s ease-in-out infinite; }
+.sector-specialty { opacity: 0; transform: translateY(10px); animation: specialty-in .38s ease forwards; transition: border-color .25s ease, background-color .25s ease, transform .25s ease; }
+.sector-specialty:hover { transform: translateY(-2px); border-color: rgba(22,220,197,.55); background: rgba(22,220,197,.1); }
 @keyframes fade-up { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes card-reveal { to { opacity: 1; transform: translateY(0) scale(1); } }
 @keyframes breathe { 0%, 100% { opacity: .55; transform: scale(.92); } 50% { opacity: 1; transform: scale(1.08); } }
@@ -71,4 +85,8 @@ html.dark .headline-shimmer { background-image: linear-gradient(100deg, #f1f7ff 
 @keyframes shine { 0%, 55% { left: -45%; } 85%, 100% { left: 125%; } }
 @keyframes headline-shimmer { 0%, 25% { background-position: 100% center; } 65%, 100% { background-position: -100% center; } }
 @keyframes marquee { to { transform: translateX(-50%); } }
-@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .fade-up, .service-reveal, .ambient-glow, .orbit-slow, .orbit-reverse, .pulse-node, .float-node, .nexus-card, .nexus-card::before, .metal-gold, .metal-silver, .logo-float, .grid-lines, .shine-button::after, .headline-shimmer, .marquee-track { animation: none; } .reveal-on-scroll, .service-reveal { opacity: 1; transform: none; transition: none; } .pointer-glow { display: none; } }
+@keyframes sector-panel-in { from { opacity: 0; transform: translateX(14px) scale(.985); } to { opacity: 1; transform: none; } }
+@keyframes specialty-in { to { opacity: 1; transform: none; } }
+@keyframes sector-glow { 0%, 100% { transform: scale(.85); opacity: .6; } 50% { transform: scale(1.12); opacity: 1; } }
+@keyframes intelligence-scan { 0%, 45% { transform: translateX(-120%); } 75%, 100% { transform: translateX(120%); } }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .fade-up, .service-reveal, .ambient-glow, .orbit-slow, .orbit-reverse, .pulse-node, .float-node, .nexus-card, .nexus-card::before, .metal-gold, .metal-silver, .logo-float, .grid-lines, .shine-button::after, .headline-shimmer, .marquee-track, .sector-explorer::before, .sector-detail, .sector-orbit, .sector-description::after, .sector-specialty { animation: none; } .reveal-on-scroll, .service-reveal, .sector-specialty { opacity: 1; transform: none; transition: none; } .pointer-glow { display: none; } }
